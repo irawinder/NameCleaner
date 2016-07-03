@@ -14,41 +14,53 @@ void setup() {
   countries.addColumn("Country");
   
   String cell;
-  String filter;
   
-  // Name Filter
-  filter = "Contact Buyer: ";
+  String nameFilter = "Contact Buyer:";
   String nameFlag, name;
+  
+  String countryFilter = "Billing Country:";
+  String countryFlag, country;
+  
   for(int i=0; i<data.getRowCount(); i++) {
     for(int j=0; j<data.getColumnCount(); j++) {
-      cell = data.getString(i, j);
+      
+      // Get Cell Value
+      if (data.getString(i, j) == null) {
+        cell = "";
+      } else {
+        cell = data.getString(i, j);
+      }
+      
       // Filter for Name
-      nameFlag = cell.substring(0,filter.length());
-      // If Name of buyer, save to 'names' Arraylist<>
-      if (nameFlag.equals(filter) ) {
+      if (cell.length() >= nameFilter.length()) {
+        nameFlag = cell.substring(0,nameFilter.length());
+      } else {
+        nameFlag = "";
+      }
+      
+      // If Name of buyer, save to 'names' Table
+      if (nameFlag.equals(nameFilter) ) {
         // Catches all characters following first 15
-        name = cell.substring(filter.length());
+        name = cell.substring(nameFilter.length() + 1);
         TableRow entry = names.addRow();
         entry.setString("Name", name);
       }
-    }
-  }
-  
-  // Country Filter
-  filter = "Billing Country: ";
-  String countryFlag, country;
-  for(int i=0; i<data.getRowCount(); i++) {
-    for(int j=0; j<data.getColumnCount(); j++) {
-      cell = data.getString(i, j);
-      // Filter for Name
-      countryFlag = cell.substring(0,filter.length());
-      // If Name of buyer, save to 'countries' Arraylist<>
-      if (countryFlag.equals(filter) ) {
+      
+      // Filter for Country
+      if (cell.length() >= countryFilter.length()) {
+        countryFlag = cell.substring(0,countryFilter.length());
+      } else {
+        countryFlag = "";
+      }
+      
+      // If Name of country, save to 'countries' Table
+      if (countryFlag.equals(countryFilter) ) {
         // Catches all characters following first 15
-        country = cell.substring(filter.length());
+        country = cell.substring(countryFilter.length() + 1);
         TableRow entry = countries.addRow();
         entry.setString("Country", country);
       }
+      
     }
   }
   
